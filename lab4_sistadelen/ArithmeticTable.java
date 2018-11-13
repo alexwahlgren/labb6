@@ -1,17 +1,20 @@
 package lab4_sistadelen;
 
-public abstract class ArithmeticTable {
+public class ArithmeticTable {
 
 	public int rows;
 	public int columns;
 	private double result;
+	private Operation op;
 	
-	public abstract double evaluate(int a, int b);
-	
-	public abstract void firstLine();
-	
+	public ArithmeticTable(Operation op, int rows, int columns) {
+		this.op = op;
+		this.rows = rows;
+		this.columns = columns;
+	}
+
 	public void print() {
-		// Sparar x och y värdena i arrayer
+		System.out.print("  "+op.symbol()+" |   ");
 		String[] columnArray = new String[columns];
 		String[] rowArray = new String[rows];
 		for (int i = 0; i < columns; i++) {
@@ -28,7 +31,7 @@ public abstract class ArithmeticTable {
 			System.out.print("  " + i + " |   ");
 			for (int j = 0; j < columns; j++) {
 				String blank;
-				result = evaluate(Integer.parseInt(columnArray[j]), 
+				result = op.evaluate(Integer.parseInt(columnArray[j]), 
 						Integer.parseInt(rowArray[i]));
 				if (String.valueOf(Math.round(result)).length() == 2) {
 					blank = "  ";
@@ -41,7 +44,5 @@ public abstract class ArithmeticTable {
 			System.out.println();
 		}
 	}
-	
-	
-
 }
+
