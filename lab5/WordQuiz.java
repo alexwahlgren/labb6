@@ -6,8 +6,16 @@ public class WordQuiz {
 
 	private Scanner input = new Scanner(System.in);
 	
+	private Dictionary dictionary;
+	private int missadeOrd = 0;
+	private int tries = 0;
+	
 	public WordQuiz(Dictionary dictionary) {
-		int missadeOrd = 0;
+		this.dictionary = dictionary;
+	 }
+	
+	public void runQuiz() {
+		tries++;
 		Dictionary missed = new Dictionary();
 		for (String key : dictionary.ordlista.keySet()) {
 			System.out.print(key + " = ");
@@ -21,13 +29,10 @@ public class WordQuiz {
 		}
 		if (missadeOrd != 0) {
 			System.out.println("Du missade "+missadeOrd+" ord! Jag förhör dig på dessa igen.");
-			WordQuiz retry = new WordQuiz(missed);
-			retry.runQuiz();
-		}else { System.out.println("Du klarade testet !!");}
-	 }
-	
-	public void runQuiz() {
-		
+			this.dictionary = missed;
+			missadeOrd = 0;
+			runQuiz();
+		}else { System.out.println("Du klarade testet på "+tries+" försök !!");}
 	}
 	
 	public static void main(String[] args) {
