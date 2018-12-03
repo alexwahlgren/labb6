@@ -1,39 +1,42 @@
 package lab6;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu implements MenuItem {
 	
 	private String menuTitle;
-	private int[] menuNumber;
-	private MenuItem[] allItems;
-	private AbstractMenuItem item;
-	private int n = 0;
+	private ArrayList<MenuItem> allItems;
 	
 	public Menu(String menuTitle) {
 		this.menuTitle = menuTitle;
+		this.allItems = new ArrayList<MenuItem>();
 	}
 	
+	public ArrayList<MenuItem> getAllItems() {
+		return allItems;
+	}
+
 	public void add(AbstractMenuItem item) {
-		this.item = item;
-		//Lagrar alla värden som ska stå framför varje meny i en array.
-		menuNumber = new int[n+1];
-		menuNumber[n] = n;
-		
-		//Lagrar alla menuitems i en array.
-		allItems = new MenuItem[n+1];
-		allItems[n] = item;
-		
-		n++;
+//		Lagrar alla menuitems i en arraylist.
+		if(!(allItems.contains(item)))
+			allItems.add(item);
+	}
+	
+	public boolean exists(String item) {
+		for (MenuItem c : allItems) {
+			if(c.getTitle().equals(item))
+				return true;
+		}
+		return false;
 	}
 
 	@Override
 	public String getTitle() {
 		return menuTitle;
 	}
-
-	@Override
-	public void execute() {
+	
+	public void printHeadLine() {
 		String understrykning = "";
 		/**
 		 * Går igenom varje char i menytiteln för att understrykningen ska bli rätt längd.
@@ -45,24 +48,24 @@ public class Menu implements MenuItem {
 		 * Skriver ut menytiteln med understrykning.
 		 */
 		System.out.print(getTitle() + "\n\n" + understrykning + "\n\n");
-		
+	}
+	
+	@Override
+	public void execute() {
 		/**
 		 * Skriver ut alla undermenyer
 		 */
-		for(int i=0; i<allItems.length; i++) {
-			System.out.println(menuNumber[i] + ". " + item.getTitle());
+		if(!allItems.isEmpty())	{
+			for(int i=0; i<allItems.size(); i++) {
+				System.out.println(i + ". " + allItems.get(i).getTitle());
+			}
+			
+			System.out.print("\nVälj ett alternativ 0-"+(allItems.size()-1)+": ");
+			Scanner scan = new Scanner(System.in);
+			int input = scan.nextInt();
+			System.out.print("\n\n");
+			allItems.get(input).execute();
 		}
-		
-//		System.out.println(menuNumber[0] + ". " + allItems[0].getTitle());
-//		System.out.println(menuNumber[1] + ". " + allItems[1].getTitle());
-		
-		System.out.print("\nVälj ett alternativ 0-"+(allItems.length-1)+": ");
-		Scanner scan = new Scanner(System.in);
-		int input = scan.nextInt();
-		System.out.print("\n\n");
-		
-		
-		
 	}
 
 }
