@@ -1,9 +1,0 @@
-hej;hello
-hej;hi
-hej;hey
-godnatt;good night
-nattinatti;good night
-fågel;bird
-hund;dog
-katt;cat
-krokodil;crocodile
